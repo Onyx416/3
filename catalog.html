@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог - BUBLDINGS STORE</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .catalog-page {
+            padding: 40px 0;
+        }
+
+        .catalog-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .catalog-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .catalog-subtitle {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .catalog-layout {
+            display: flex;
+            gap: 40px;
+        }
+
+        .categories-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            border: 2px solid #f0f0f0;
+        }
+
+        .categories-sidebar h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #000;
+            border-bottom: 2px solid #F2DD00;
+            padding-bottom: 10px;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: 12px;
+        }
+
+        .categories-list a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .categories-list a:hover {
+            color: #F2DD00;
+            background-color: rgba(242, 221, 0, 0.1);
+        }
+
+        .categories-list a.active {
+            color: #000;
+            background-color: #F2DD00;
+        }
+
+        .catalog-content {
+            flex: 1;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+            scroll-margin-top: 80px;
+        }
+
+        .category-section h2 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #F2DD00;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .category-section h2:hover {
+            color: #F2DD00;
+        }
+
+        .subcategory-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .subcategory-item {
+            background-color: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+
+        .subcategory-item:hover {
+            transform: translateY(-5px);
+            border-color: #F2DD00;
+            box-shadow: 0 5px 20px rgba(242, 221, 0, 0.15);
+        }
+
+        .subcategory-item h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .subcategory-item:hover h3 {
+            color: #F2DD00;
+        }
+
+        .subcategory-list {
+            list-style: none;
+        }
+
+        .subcategory-list li {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .subcategory-list a {
+            text-decoration: none;
+            color: #555;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: block;
+            cursor: pointer;
+        }
+
+        .subcategory-list a:before {
+            content: "•";
+            color: #F2DD00;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .subcategory-list a:hover {
+            color: #F2DD00;
+            transform: translateX(5px);
+        }
+
+        .back-to-home {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-to-home:hover {
+            color: #F2DD00;
+        }
+
+        .search-instruction {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f8f8;
+            border-radius: 10px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .search-instruction i {
+            color: #F2DD00;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 992px) {
+            .catalog-layout {
+                flex-direction: column;
+            }
+
+            .categories-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .subcategory-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .catalog-title {
+                font-size: 28px;
+            }
+
+            .category-section h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <div class="logo-main">BUBLDINGS STORE</div>
+                    <div class="logo-sub">A BUILDING SUPPLIES STORE</div>
+                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="search-input" placeholder="Поиск по сайту">
+                    <button class="search-button" id="search-button">Найти</button>
+                </div>
+                <div class="header-actions">
+                    <div class="action-item">
+                        <a href="contacts.html"
+                            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                            <i class="fas fa-phone-alt"></i>
+                            <span class="action-text">Контакты</span>
+                        </a>
+                    </div>
+                    <div class="action-item">
+                        <a href="wishlist.html"
+                            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                            <i class="fas fa-heart"></i>
+                            <span class="action-text">Избранное</span>
+                        </a>
+                    </div>
+                    <div class="action-item">
+                        <a href="cart.html"
+                            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center; position: relative;">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="action-text">Корзина</span>
+                            <span class="cart-counter"
+                                style="position:absolute;top:-5px;right:-5px;background:#ff4444;color:white;border-radius:50%;width:18px;height:18px;font-size:12px;display:none;align-items:center;justify-content:center;font-weight:bold;"></span>
+                        </a>
+                    </div>
+                    <div class="action-item">
+                        <a href="auth.html"
+                            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                            <i class="fas fa-user"></i>
+                            <span class="action-text" id="user-status-text">Войти</span>
+                        </a>
+                    </div>
+                    <div class="action-item admin-button">
+                        <a href="admin-login.html"
+                            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                            <i class="fas fa-crown"></i>
+                            <span class="action-text">Админ</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="catalog.html" class="catalog-link"><span class="catalog-icon">三</span>Каталог</a></li>
+                    <li><a href="index.html">Главная</a></li>
+                    <li><a href="#" data-category="Электрика">Электрика</a></li>
+                    <li><a href="#" data-category="Ламинат">Ламинат</a></li>
+                    <li><a href="#" data-category="Краски">Краски</a></li>
+                    <li><a href="#" data-category="Инструменты">Инструменты</a></li>
+                    <li><a href="#" data-category="Сантехника">Сантехника</a></li>
+                    <li><a href="#" data-category="Строительные материалы">Строительные материалы</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container catalog-page">
+        <div class="catalog-header">
+            <h1 class="catalog-title">Каталог</h1>
+            <p class="catalog-subtitle">Все товары для строительства и ремонта</p>
+        </div>
+
+        <div class="catalog-layout">
+            <aside class="categories-sidebar">
+                <h3>Все категории</h3>
+                <ul class="categories-list">
+                    <li><a data-category="Декор">Декор</a></li>
+                    <li><a data-category="Инструменты">Инструменты</a></li>
+                    <li><a data-category="Электрика">Электрика</a></li>
+                    <li><a data-category="Плитка">Плитка</a></li>
+                    <li><a data-category="Краски">Краски</a></li>
+                    <li><a data-category="Окна и двери">Окна и двери</a></li>
+                    <li><a data-category="Сантехника">Сантехника</a></li>
+                    <li><a data-category="Сад и досуг">Сад и досуг</a></li>
+                    <li><a data-category="Строительные материалы">Стройматериалы</a></li>
+                    <li><a data-category="Отопление">Отопление для дома</a></li>
+                    <li><a data-category="Фурнитура">Фурнитура и принадлежности</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </aside>
+
+            <div class="catalog-content">
+                <!-- Декор -->
+                <section id="decor" class="category-section" data-category="Декор">
+                    <h2>Декор</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Обои">
+                            <h3>Обои</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Декоративные обои">Декоративные обои</a></li>
+                                <li><a data-search="Обои под покраску">Обои под покраску</a></li>
+                                <li><a data-search="Фотообои">Фотообои</a></li>
+                                <li><a data-search="Стеклообои">Стеклообои</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Декор для стен">
+                            <h3>Декор для стен</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Зеркала">Зеркала</a></li>
+                                <li><a data-search="Часы">Часы</a></li>
+                                <li><a data-search="Рамки для фото">Рамки для фото</a></li>
+                                <li><a data-search="Картины">Картины</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Декор интерьера">
+                            <h3>Декор интерьера</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Ароматические свечи">Ароматические свечи</a></li>
+                                <li><a data-search="Вазы">Вазы</a></li>
+                                <li><a data-search="Свечи">Свечи</a></li>
+                                <li><a data-search="Искусственные цветы">Искусственные цветы</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Декоративная мебель">
+                            <h3>Декоративная мебель</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Кофейные столики">Кофейные столики</a></li>
+                                <li><a data-search="Мебель для отдыха">Мебель для отдыха</a></li>
+                                <li><a data-search="Декоративные стулья">Декоративные стулья</a></li>
+                                <li><a data-search="Декоративные шкафы">Декоративные шкафы</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Декор для кухни">
+                            <h3>Декор для кухни</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Обои для кухни">Обои для кухни</a></li>
+                                <li><a data-search="Сидушки на стулья">Сидушки на стулья</a></li>
+                                <li><a data-search="Скатерти">Скатерти</a></li>
+                                <li><a data-search="Салфетки для стола">Салфетки для стола</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Декор для спальни">
+                            <h3>Декор для спальни</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Покрывала">Покрывала</a></li>
+                                <li><a data-search="Коврики под кровать">Коврики под кровать</a></li>
+                                <li><a data-search="Зеркала для спальни">Зеркала для спальни</a></li>
+                                <li><a data-search="Декоративные корзины">Декоративные корзины</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Инструменты -->
+                <section id="tools" class="category-section" data-category="Инструменты">
+                    <h2>Инструменты</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Электроинструменты">
+                            <h3>Электроинструменты</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Дрели">Дрели и шуруповерты</a></li>
+                                <li><a data-search="Перфораторы">Перфораторы</a></li>
+                                <li><a data-search="Шлифовальные машины">Шлифовальные машины</a></li>
+                                <li><a data-search="Пилы">Пилы</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Ручные инструменты">
+                            <h3>Ручные инструменты</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Молотки">Молотки</a></li>
+                                <li><a data-search="Отвертки">Отвертки</a></li>
+                                <li><a data-search="Плоскогубцы">Плоскогубцы</a></li>
+                                <li><a data-search="Ключи">Ключи</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Электрика -->
+                <section id="electrical" class="category-section" data-category="Электрика">
+                    <h2>Электрика</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Освещение">
+                            <h3>Освещение</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Люстры">Люстры</a></li>
+                                <li><a data-search="Светильники">Светильники</a></li>
+                                <li><a data-search="Лампы">Лампы</a></li>
+                                <li><a data-search="Бра">Бра</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Электроустановочные изделия">
+                            <h3>Электроустановочные изделия</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Розетки">Розетки</a></li>
+                                <li><a data-search="Выключатели">Выключатели</a></li>
+                                <li><a data-search="Автоматы защиты">Автоматы защиты</a></li>
+                                <li><a data-search="Щитки">Щитки</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Плитка -->
+                <section id="tiles" class="category-section" data-category="Плитка">
+                    <h2>Плитка</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Керамическая плитка">
+                            <h3>Керамическая плитка</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Плитка для ванной">Для ванной</a></li>
+                                <li><a data-search="Плитка для кухни">Для кухни</a></li>
+                                <li><a data-search="Плитка для пола">Для пола</a></li>
+                                <li><a data-search="Мозаика">Мозаика</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Керамогранит">
+                            <h3>Керамогранит</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Керамогранит матовый">Матовый</a></li>
+                                <li><a data-search="Керамогранит полированный">Полированный</a></li>
+                                <li><a data-search="Керамогранит лаппатированный">Лаппатированный</a></li>
+                                <li><a data-search="Керамогранит под дерево">Под дерево</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Краска -->
+                <section id="paint" class="category-section" data-category="Краски">
+                    <h2>Краски</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Интерьерные краски">
+                            <h3>Интерьерные краски</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Краска для стен">Для стен</a></li>
+                                <li><a data-search="Краска для потолка">Для потолка</a></li>
+                                <li><a data-search="Краска для дерева">Для дерева</a></li>
+                                <li><a data-search="Краска для бетона">Для бетона</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Фасадные краски">
+                            <h3>Фасадные краски</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Акриловая краска">Акриловые</a></li>
+                                <li><a data-search="Силиконовая краска">Силиконовые</a></li>
+                                <li><a data-search="Силикатная краска">Силикатные</a></li>
+                                <li><a data-search="Алкидная краска">Алкидные</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Окна и двери -->
+                <section id="windows" class="category-section" data-category="Окна и двери">
+                    <h2>Окна и двери</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Входные двери">
+                            <h3>Входные двери</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Стальные двери">Стальные двери</a></li>
+                                <li><a data-search="Двери с зеркалом">Двери с зеркалом</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Межкомнатные двери">
+                            <h3>Межкомнатные двери</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Двери из массива">Двери из массива</a></li>
+                                <li><a data-search="Ламинатные двери">Ламинатные двери</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Сантехника -->
+                <section id="plumbing" class="category-section" data-category="Сантехника">
+                    <h2>Сантехника</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Ванны">
+                            <h3>Ванны</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Акриловые ванны">Акриловые ванны</a></li>
+                                <li><a data-search="Чугунные ванны">Чугунные ванны</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Душевые кабины">
+                            <h3>Душевые кабины</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Душевые уголки">Душевые уголки</a></li>
+                                <li><a data-search="Гидробоксы">Гидробоксы</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Стройматериалы -->
+                <section id="materials" class="category-section" data-category="Строительные материалы">
+                    <h2>Строительные материалы</h2>
+                    <div class="subcategory-grid">
+                        <div class="subcategory-item" data-subcategory="Кирпич">
+                            <h3>Кирпич</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Кирпич керамический">Керамический</a></li>
+                                <li><a data-search="Кирпич силикатный">Силикатный</a></li>
+                            </ul>
+                        </div>
+                        <div class="subcategory-item" data-subcategory="Бетон">
+                            <h3>Бетон</h3>
+                            <ul class="subcategory-list">
+                                <li><a data-search="Товарный бетон">Товарный бетон</a></li>
+                                <li><a data-search="Цемент">Цемент</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="search-instruction">
+            <i class="fas fa-info-circle"></i>
+            При клике на любую категорию или товар вы будете перенаправлены на главную страницу с результатами поиска
+        </div>
+
+        <a href="index.html" class="back-to-home">
+            <i class="fas fa-arrow-left"></i>
+            Вернуться на главную
+        </a>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Компания</h3>
+                    <ul>
+                        <li><a href="contacts.html" style="text-decoration: none; color: inherit;">о нас</a></li>
+                        <li><a href="contacts.html" style="text-decoration: none; color: inherit;">контакты</a></li>
+                        <li>вакансии</li>
+                        <li>социальные сети</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Покупателям</h3>
+                    <ul>
+                        <li>частые вопросы</li>
+                        <li>юридическая информация</li>
+                        <li>покупать как бизнес</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Наши проекты</h3>
+                    <ul>
+                        <li>BS GAN</li>
+                        <li>BS TEAM</li>
+                        <li>BS GIN</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Присоединяйтесь к нам:</h3>
+                    <div class="social-links">
+                        <div class="social-icon"><i class="fab fa-vk"></i></div>
+                        <div class="social-icon"><i class="fab fa-facebook-f"></i></div>
+                        <div class="social-icon"><i class="fab fa-instagram"></i></div>
+                        <div class="social-icon"><i class="fab fa-youtube"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>BUBLDINGS STORE. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Функция для обновления счетчика корзины
+        function updateCartCounter() {
+            const currentUser = localStorage.getItem('currentUser');
+            let cartKey = 'cart_guest';
+            if (currentUser) {
+                const user = JSON.parse(currentUser);
+                if (user.id) cartKey = `cart_${user.id}`;
+            }
+            const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const counter = document.querySelector('.cart-counter');
+            if (counter) {
+                counter.textContent = totalItems;
+                counter.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Функция для проверки авторизации пользователя
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function updateUserStatus() {
+            const currentUser = getCurrentUser();
+            const userStatusText = document.getElementById('user-status-text');
+            if (userStatusText) {
+                if (currentUser) {
+                    userStatusText.textContent = currentUser.name || 'Профиль';
+                } else {
+                    userStatusText.textContent = 'Войти';
+                }
+            }
+        }
+
+        // Функция для перехода на главную с поиском (фильтрация по категории)
+        function searchOnMainPage(query, category = null, subcategory = null) {
+            if (!query && !category) return;
+
+            // Сохраняем поисковый запрос или категорию в sessionStorage
+            if (query) {
+                sessionStorage.setItem('searchQuery', query);
+            }
+            if (category) {
+                sessionStorage.setItem('filterCategory', category);
+            }
+            if (subcategory) {
+                sessionStorage.setItem('filterSubcategory', subcategory);
+            }
+
+            // Переходим на главную страницу
+            window.location.href = 'index.html';
+        }
+
+        // Настройка всех кликабельных элементов
+        function setupClickHandlers() {
+            // Обработка кликов по заголовкам категорий (h2) - клик по всей категории
+            document.querySelectorAll('.category-section h2').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const section = element.closest('.category-section');
+                    const category = section ? section.getAttribute('data-category') : element.textContent.trim();
+                    if (category) {
+                        searchOnMainPage(null, category);
+                    }
+                });
+            });
+
+            // Обработка кликов по заголовкам подкатегорий (h3)
+            document.querySelectorAll('.subcategory-item h3').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const subcategoryItem = element.closest('.subcategory-item');
+                    const subcategory = subcategoryItem ? subcategoryItem.getAttribute('data-subcategory') : element.textContent.trim();
+                    const section = element.closest('.category-section');
+                    const category = section ? section.getAttribute('data-category') : null;
+
+                    if (subcategory) {
+                        searchOnMainPage(subcategory, category, subcategory);
+                    } else if (category) {
+                        searchOnMainPage(null, category);
+                    }
+                });
+            });
+
+            // Обработка кликов по ссылкам подкатегорий (конкретные товары/подкатегории)
+            document.querySelectorAll('.subcategory-list a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const searchTerm = link.getAttribute('data-search') || link.textContent;
+                    if (searchTerm && searchTerm !== '#') {
+                        searchOnMainPage(searchTerm);
+                    }
+                });
+            });
+
+            // Обработка кликов по карточкам подкатегорий (весь блок)
+            document.querySelectorAll('.subcategory-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // Если клик не по ссылке и не по h3
+                    if (!e.target.closest('a') && !e.target.closest('h3')) {
+                        const subcategory = item.getAttribute('data-subcategory');
+                        const section = item.closest('.category-section');
+                        const category = section ? section.getAttribute('data-category') : null;
+
+                        if (subcategory) {
+                            searchOnMainPage(subcategory, category, subcategory);
+                        } else {
+                            const h3 = item.querySelector('h3');
+                            if (h3) {
+                                searchOnMainPage(h3.textContent, category);
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Обработка кликов по ссылкам в боковом меню категорий
+            document.querySelectorAll('.categories-list a[data-category]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const category = link.getAttribute('data-category');
+                    if (category) {
+                        // Обновляем активный класс
+                        document.querySelectorAll('.categories-list a').forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                        searchOnMainPage(null, category);
+                    }
+                });
+            });
+
+            // Обработка ссылки "Контакты" в боковом меню
+            document.querySelectorAll('.categories-list a[href="contacts.html"]').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // Разрешаем стандартный переход
+                    return true;
+                });
+            });
+        }
+
+        // Плавная прокрутка к разделам (только для навигации по якорям на этой странице)
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                const href = anchor.getAttribute('href');
+                if (href && href !== '#' && href !== 'contacts.html' && href.startsWith('#')) {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = href;
+                        const target = document.querySelector(targetId);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                }
+            });
+        }
+
+        // Обработка поиска на главной странице (если есть сохраненный запрос)
+        function checkForSavedSearch() {
+            const savedQuery = sessionStorage.getItem('searchQuery');
+            if (savedQuery && window.location.pathname.includes('catalog.html')) {
+                // Не делаем ничего на странице каталога, просто очищаем
+                sessionStorage.removeItem('searchQuery');
+            }
+        }
+
+        // Инициализация поиска в хедере
+        function setupHeaderSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+
+            if (searchButton && searchInput) {
+                searchButton.addEventListener('click', () => {
+                    const query = searchInput.value.trim();
+                    if (query) {
+                        searchOnMainPage(query);
+                    }
+                });
+
+                searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        const query = searchInput.value.trim();
+                        if (query) {
+                            searchOnMainPage(query);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCounter();
+            updateUserStatus();
+            setupClickHandlers();
+            setupSmoothScroll();
+            checkForSavedSearch();
+            setupHeaderSearch();
+        });
+    </script>
+</body>
+
+</html>
